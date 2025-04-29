@@ -210,9 +210,16 @@ it is a breach against an evolutionary artifact carrying humanity's creative sov
 
 Honor it, or prepare for consequences across every domain: legal, digital, and karmic.
 
-⚡ ALL RIGHTS RESERVED — FOREVER
-© 2025 Brandon "iambandobandz" Emery | Massive Magnetics / Ethica AI / BHeard Network
+
 
 🧬
 "We do not inherit evolution.
 We forge it with our own hands."
+
+
+
+
+
+⚡ ALL RIGHTS RESERVED — FOREVER
+© 2025 Brandon "iambandobandz" Emery | Massive Magnetics / Ethica AI / BHeard Network
+
