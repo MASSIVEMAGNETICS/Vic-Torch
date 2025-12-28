@@ -155,3 +155,7 @@ Vic-Torch **evolves mid-flight** like a goddamn living organism.
 ## License
 
 This project is released under the GODCORE Fractal Sovereign License. See [LICENSE](LICENSE) for full details.
+
+## Roadmap
+
+For a phased design document with measurable goals and benchmarks, see [docs/roadmap.md](docs/roadmap.md).
