@@ -2,6 +2,11 @@
 
 This document scopes Vic-Torch into phased deliverables with measurable goals, benchmarking baselines, and technical bets to prioritize. It is intentionally pragmatic: each phase should land a usable artifact, a minimal benchmark suite, and clear performance/compatibility/UX targets.
 
+## How To Use This Roadmap
+- Pick a single phase and land the deliverables plus its gate metrics before expanding scope.
+- Treat benchmarks as the court of law; opinions are inadmissible without numbers.
+- If a goal is missed, document the exception and defer it explicitly to a later phase.
+
 ## Scope Phases
 
 ### Phase 0 — Core Tensor + Autograd (MVP)
@@ -25,6 +30,9 @@ This document scopes Vic-Torch into phased deliverables with measurable goals, b
 - Training CLI with config files.
 - Checkpointing + mixed precision.
 
+**Out-of-scope**
+- Compiler work, distributed training.
+
 ### Phase 2 — Compiler + Graph/Eager Hybrid
 **Goal:** Introduce a graph capture + compiler path without sacrificing eager UX.
 
@@ -32,6 +40,9 @@ This document scopes Vic-Torch into phased deliverables with measurable goals, b
 - Graph capture API (`torch.compile`-like), fallback to eager for unsupported ops.
 - AOT autograd for fused backward passes.
 - Basic op fusion and kernel scheduling.
+
+**Out-of-scope**
+- Multi-node distributed training, kernel DSL.
 
 ### Phase 3 — Distributed Training
 **Goal:** Add single-node multi-GPU and multi-node training support.
@@ -41,6 +52,9 @@ This document scopes Vic-Torch into phased deliverables with measurable goals, b
 - DDP-style data parallelism, gradient bucketing.
 - Checkpoint sharding.
 
+**Out-of-scope**
+- Full compiler autotuning, kernel DSL.
+
 ### Phase 4 — Runtime/Ops + Kernel DSL
 **Goal:** Mature runtime with custom kernel authoring and hardware portability.
 
@@ -48,6 +62,9 @@ This document scopes Vic-Torch into phased deliverables with measurable goals, b
 - Kernel DSL for custom ops (CPU + CUDA).
 - MLIR or LLVM lowering path.
 - Profiler and runtime tracer.
+
+**Out-of-scope**
+- Full model zoo expansion beyond Phase 1 references.
 
 ## Measurable Goals
 
@@ -91,6 +108,10 @@ This document scopes Vic-Torch into phased deliverables with measurable goals, b
 **Minimal baseline**
 - Matmul 1024x1024 runs without error and autograd gradients match finite-difference checks.
 
+**How to run (placeholder commands)**
+- `vicbench microbench --op matmul --sizes 1024,2048`
+- `vicbench autograd --model mlp2 --batch 128`
+
 ### Phase 1 (Model Zoo + Training)
 **Benchmark suites**
 - **CV**: ResNet-18 on CIFAR-10.
@@ -99,6 +120,10 @@ This document scopes Vic-Torch into phased deliverables with measurable goals, b
 
 **Minimal baseline**
 - ResNet-18 reaches **≥ 80%** CIFAR-10 accuracy within 90 epochs (standard augmentations).
+
+**How to run (placeholder commands)**
+- `victrain --model resnet18 --dataset cifar10 --epochs 90`
+- `victrain --model bert-small --dataset wikitext2 --seq-len 128`
 
 ### Phase 2 (Compiler + Hybrid)
 **Benchmark suites**
@@ -109,6 +134,10 @@ This document scopes Vic-Torch into phased deliverables with measurable goals, b
 **Minimal baseline**
 - Graph compile achieves **≥ 1.1x** speedup on ResNet-50 inference vs eager.
 
+**How to run (placeholder commands)**
+- `vicbench compile --model resnet50 --mode infer`
+- `vicbench fusion --op layernorm_gelu`
+
 ### Phase 3 (Distributed Training)
 **Benchmark suites**
 - **Scaling**: ResNet-50 throughput from 1 → 8 GPUs.
@@ -118,6 +147,10 @@ This document scopes Vic-Torch into phased deliverables with measurable goals, b
 **Minimal baseline**
 - 8-GPU training delivers **≥ 0.8 scaling efficiency** vs single-GPU baseline.
 
+**How to run (placeholder commands)**
+- `vicrun --nodes 1 --gpus 8 victrain --model resnet50 --dataset imagenet-lite`
+- `vicrun --nodes 2 --gpus 8 victrain --model resnet50 --dataset imagenet-lite`
+
 ### Phase 4 (Runtime/Ops + Kernel DSL)
 **Benchmark suites**
 - **Kernel DSL**: custom LayerNorm kernel vs vendor baseline.
@@ -126,6 +159,10 @@ This document scopes Vic-Torch into phased deliverables with measurable goals, b
 
 **Minimal baseline**
 - Custom LayerNorm kernel achieves **≥ 85%** of vendor-optimized performance.
+
+**How to run (placeholder commands)**
+- `vicbench kernels --op layernorm --impl dsl`
+- `vicbench ops --suite top50`
 
 ## Risks & Mitigations
 - **Scope creep:** enforce phase gates; avoid compiler work before Phase 1 is stable.
