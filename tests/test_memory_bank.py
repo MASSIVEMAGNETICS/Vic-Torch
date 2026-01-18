@@ -5,16 +5,21 @@ Tests basic MemoryBank functionality with defensive imports.
 """
 
 import pytest
+import sys
+from pathlib import Path
+
+# Add Vic-Torch to path
+sys.path.insert(0, str(Path(__file__).parent.parent / "Vic-Torch"))
 
 
 def test_memory_bank_basic():
     """Test basic MemoryBank creation and storage."""
     try:
-        from Vic_Torch.victorch.memory.memory_bank import MemoryBank
+        from victorch.memory.memory_bank import MemoryBank
     except ImportError:
         # Try alternative import path
         try:
-            from Vic_Torch.victorch.memory.godcore_memory_bank import GodcoreMemoryBank as MemoryBank
+            from victorch.memory.godcore_memory_bank import GodcoreMemoryBank as MemoryBank
         except ImportError:
             pytest.skip("MemoryBank not available")
     
@@ -37,10 +42,10 @@ def test_memory_bank_basic():
 def test_memory_bank_capacity():
     """Test MemoryBank capacity limits."""
     try:
-        from Vic_Torch.victorch.memory.memory_bank import MemoryBank
+        from victorch.memory.memory_bank import MemoryBank
     except ImportError:
         try:
-            from Vic_Torch.victorch.memory.godcore_memory_bank import GodcoreMemoryBank as MemoryBank
+            from victorch.memory.godcore_memory_bank import GodcoreMemoryBank as MemoryBank
         except ImportError:
             pytest.skip("MemoryBank not available")
     
