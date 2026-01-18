@@ -1,0 +1,6 @@
+# Vic-Torch Minimal Requirements
+# Core dependencies for reproducible training and testing
+
+numpy>=1.21.0
+pyyaml>=6.0
+pytest>=7.0.0
