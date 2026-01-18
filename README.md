@@ -159,3 +159,86 @@ This project is released under the GODCORE Fractal Sovereign License. See [LICEN
 ## Roadmap
 
 For a phased design document with measurable goals and benchmarks, see [docs/roadmap.md](docs/roadmap.md).
+
+---
+
+## 🚀 Quickstart: Reproducible Training
+
+### Prerequisites
+
+Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+### Running Reproducible Training
+
+Vic-Torch includes a deterministic training wrapper that ensures reproducible results across runs:
+
+```bash
+python scripts/train.py --config configs/default.yaml --script Vic-Torch/train_victor_godcore.py
+```
+
+The training wrapper:
+- Loads configuration from YAML (including random seed)
+- Sets deterministic seeds for Python's `random` and `numpy`
+- Runs the training script in a subprocess for isolation
+- Ensures `PYTHONHASHSEED` is set for reproducibility
+
+### Configuration
+
+Edit `configs/default.yaml` to customize training parameters:
+
+```yaml
+seed: 42  # Random seed for reproducibility
+
+training:
+  epochs: 100
+  batch_size: 32
+  learning_rate: 0.001
+
+checkpoint:
+  dir: "checkpoints"
+  prefix: "victor_checkpoint"
+  save_every: 10
+```
+
+### Checkpoint Usage
+
+Vic-Torch provides flexible checkpoint utilities that work with multiple backends:
+
+```python
+from victorch.checkpoint import save_checkpoint, load_checkpoint
+
+# Save a checkpoint
+save_checkpoint(
+    model=model,
+    optimizer=optimizer,
+    epoch=current_epoch,
+    metadata={'loss': loss_value},
+    path='checkpoints/victor_epoch_10.npz'
+)
+
+# Load a checkpoint
+epoch = load_checkpoint(
+    model=model,
+    optimizer=optimizer,
+    path='checkpoints/victor_epoch_10.npz'
+)
+```
+
+The checkpoint system automatically:
+- Tries `model.save_weights()` if available
+- Falls back to `state_dict()` extraction
+- Saves optimizer state (including Adam m/v parameters)
+- Stores metadata and epoch information
+- Uses numpy compressed format (`.npz`) by default
+- Falls back to pickle if needed
+
+### Running Tests
+
+```bash
+pytest tests/ -v
+```
+
+Tests are defensive and will skip gracefully if modules are not available, making them safe for CI environments.

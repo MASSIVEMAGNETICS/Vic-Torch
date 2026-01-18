@@ -1,0 +1,28 @@
+# Default configuration for reproducible training runs
+# This configuration ensures deterministic behavior across runs
+
+# Random seed for reproducibility
+seed: 42
+
+# Training parameters
+training:
+  epochs: 100
+  batch_size: 32
+  learning_rate: 0.001
+  
+# Checkpoint settings
+checkpoint:
+  # Directory to save checkpoints
+  dir: "checkpoints"
+  # Prefix for checkpoint filenames
+  prefix: "victor_checkpoint"
+  # Save checkpoint every N epochs
+  save_every: 10
+  # Keep only the last N checkpoints (0 = keep all)
+  keep_last: 5
+
+# Model parameters
+model:
+  # Model-specific parameters can be added here
+  hidden_dim: 128
+  num_layers: 4
