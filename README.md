@@ -159,3 +159,116 @@ This project is released under the GODCORE Fractal Sovereign License. See [LICEN
 ## Roadmap
 
 For a phased design document with measurable goals and benchmarks, see [docs/roadmap.md](docs/roadmap.md).
+
+---
+
+## Quickstart: Reproducible Training
+
+Get started with reproducible training using Vic-Torch's deterministic seeding and checkpoint management.
+
+### Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/MASSIVEMAGNETICS/Vic-Torch.git
+   cd Vic-Torch
+   ```
+
+2. **Create a virtual environment:**
+   ```bash
+   python3 -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Deterministic Training
+
+Run training with reproducible seeds using the wrapper script:
+
+```bash
+python scripts/train.py
+```
+
+This wrapper:
+- Loads configuration from `configs/default.yaml` (default seed: 42)
+- Sets deterministic seeds for Python's `random`, NumPy, and `PYTHONHASHSEED`
+- Runs the target training script (`Vic-Torch/train_victor_godcore_v2.py` by default)
+- Returns the subprocess exit code
+
+**Custom configuration:**
+```bash
+python scripts/train.py --config configs/custom.yaml
+```
+
+**Custom training script:**
+```bash
+python scripts/train.py --script Vic-Torch/train_victor.py
+```
+
+### Checkpoint Management
+
+Use the checkpoint helper for model persistence:
+
+```python
+from victorch.checkpoint import save_checkpoint, load_checkpoint
+
+# Save a checkpoint
+save_checkpoint('model.npy', model, metadata={'epoch': 10, 'loss': 0.5})
+
+# Load a checkpoint
+checkpoint = load_checkpoint('model.npy')
+weights = checkpoint['weights']
+metadata = checkpoint['metadata']
+saved_at = checkpoint['saved_at']
+```
+
+The checkpoint helper:
+- Attempts to call `model.save_weights()` or `model.state_dict()`
+- Falls back to pickling the model object if methods aren't available
+- Stores weights, metadata, and timestamp in a single `.npy` file
+
+### Running Tests
+
+Run the test suite to validate your setup:
+
+```bash
+pytest tests/ -v
+```
+
+Tests are minimal and defensive:
+- `test_tensor.py`: Basic Tensor instantiation and properties
+- `test_memory_bank.py`: MemoryBank capacity and storage behavior
+
+### Continuous Integration
+
+The project uses GitHub Actions for CI:
+- Automatically runs on push and PR to `main` branch
+- Uses Python 3.10
+- Installs dependencies from `requirements.txt`
+- Runs pytest test suite
+
+See [.github/workflows/ci.yml](.github/workflows/ci.yml) for details.
+
+### Contributing
+
+We welcome contributions! Please see:
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Development workflow and guidelines
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) - Community standards
+
+To contribute:
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes with tests
+4. Submit a pull request
+
+### License Notes
+
+This project includes two license options:
+- **GODCORE Fractal Sovereign License** ([LICENSE](LICENSE)) - Primary license
+- **MIT License** ([LICENSE-MIT](LICENSE-MIT)) - Alternative permissive license
+
+Please review both licenses to understand your usage rights.

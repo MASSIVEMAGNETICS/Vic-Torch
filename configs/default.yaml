@@ -1,0 +1,27 @@
+# Vic-Torch Default Training Configuration
+# This file contains default hyperparameters for reproducible training
+
+# Reproducibility
+seed: 42
+
+# Training parameters
+training:
+  epochs: 10
+  batch_size: 32
+  learning_rate: 0.001
+  
+# Model parameters
+model:
+  hidden_dim: 128
+  num_layers: 2
+  
+# Checkpoint settings
+checkpoint:
+  dir: "checkpoints"
+  prefix: "victorch"
+  save_interval: 5
+
+# Trainer settings
+trainer:
+  log_interval: 10
+  validation_split: 0.2
