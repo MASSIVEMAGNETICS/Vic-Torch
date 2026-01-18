@@ -208,7 +208,7 @@ checkpoint:
 Vic-Torch provides flexible checkpoint utilities that work with multiple backends:
 
 ```python
-from victorch.checkpoint import save_checkpoint, load_checkpoint
+from utils.checkpoint import save_checkpoint, load_checkpoint
 
 # Save a checkpoint
 save_checkpoint(

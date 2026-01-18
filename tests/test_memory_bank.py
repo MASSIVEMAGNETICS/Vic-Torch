@@ -11,15 +11,15 @@ import pytest
 def test_memory_bank_import():
     """Test that MemoryBank can be imported."""
     try:
-        from Vic-Torch.victorch.memory.memory_bank import MemoryBank
-    except ImportError:
-        pytest.skip("MemoryBank module not available")
+        from victorch.memory.memory_bank import MemoryBank
+    except ImportError as e:
+        pytest.skip(f"MemoryBank module not available: {e}")
 
 
 def test_memory_bank_store():
     """Test basic memory bank store functionality."""
     try:
-        from Vic-Torch.victorch.memory.memory_bank import MemoryBank
+        from victorch.memory.memory_bank import MemoryBank
         import numpy as np
         
         # Create memory bank with small capacity
@@ -43,7 +43,7 @@ def test_memory_bank_store():
 def test_memory_bank_capacity():
     """Test that memory bank respects capacity limits."""
     try:
-        from Vic-Torch.victorch.memory.memory_bank import MemoryBank
+        from victorch.memory.memory_bank import MemoryBank
         import numpy as np
         
         # Create memory bank with small capacity

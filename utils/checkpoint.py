@@ -5,7 +5,7 @@ This module provides utilities for saving and loading model checkpoints
 with support for multiple backend formats (numpy, pickle, state_dict).
 
 Usage:
-    from victorch.checkpoint import save_checkpoint, load_checkpoint
+    from utils.checkpoint import save_checkpoint, load_checkpoint
     
     # Save checkpoint
     save_checkpoint(model, optimizer, epoch=10, path="checkpoint.npz")

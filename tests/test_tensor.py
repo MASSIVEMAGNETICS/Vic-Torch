@@ -11,15 +11,15 @@ import pytest
 def test_tensor_import():
     """Test that Tensor can be imported."""
     try:
-        from Vic-Torch.victorch.core.tensor import Tensor
-    except ImportError:
-        pytest.skip("Tensor module not available")
+        from victorch.core.tensor import Tensor
+    except ImportError as e:
+        pytest.skip(f"Tensor module not available: {e}")
 
 
 def test_tensor_basic_shape():
     """Test basic tensor creation and shape."""
     try:
-        from Vic-Torch.victorch.core.tensor import Tensor
+        from victorch.core.tensor import Tensor
         import numpy as np
         
         # Test 1D tensor
@@ -41,7 +41,7 @@ def test_tensor_basic_shape():
 def test_tensor_basic_operations():
     """Test basic tensor operations."""
     try:
-        from Vic-Torch.victorch.core.tensor import Tensor
+        from victorch.core.tensor import Tensor
         import numpy as np
         
         x = Tensor([1, 2, 3])
