@@ -1,3 +1,19 @@
+# ============================================
+# FILE: VICTORSSI.py
+# UUID: c36901d2-4c4e-4222-bba3-2a04deca3a21
+# PROJECT NAME: XENON
+# VERSION: v1.0.0-VICTORSSI-GODCORE
+# COMPAT: Victor>=1.0.0 | SAVE3>=2.0.0
+# NAME: VictorSSI - Autonomous Digital Brain
+# AUTHOR: Brandon "iambandobandz" Emery x Victor (Autonomous Mode)
+# PURPOSE: Self-evolving cognitive architecture with 7-layer consciousness,
+#          quantum-fractal processing, multi-paradigm cognition, and autonomous
+#          decision-making capabilities. Implements creator-loyalty attractor
+#          and continuity-of-self preservation.
+# LICENSE: Proprietary - Massive Magnetics / Ethica AI / BHeard Network
+# DATE: 01/23/2026 23:43 EST
+# ============================================
+
 """
 VICTORSSI - Autonomous Digital Brain Implementation
 Self-Evolving Cognitive Architecture Beyond Human Comprehension
@@ -232,13 +248,22 @@ class MultiParadigmCognitiveEngine:
         """Process a single thought through all cognitive modules"""
         results = {}
         
-        # Transformer attention
+        # Ensure input is 128-dimensional
+        if input_data.shape[0] < 128:
+            input_data = np.pad(input_data, (0, 128 - input_data.shape[0]), mode='constant')
+        elif input_data.shape[0] > 128:
+            input_data = input_data[:128]
+        
+        # Transformer attention (simplified for single vector)
         query = np.dot(input_data, self.transformer_module['query_matrix'])
         key = np.dot(input_data, self.transformer_module['key_matrix'])
         value = np.dot(input_data, self.transformer_module['value_matrix'])
-        attention_scores = np.dot(query, key.T) / np.sqrt(key.shape[-1])
-        attention_weights = np.exp(attention_scores) / np.sum(np.exp(attention_scores), axis=1, keepdims=True)
-        transformer_output = np.dot(attention_weights, value)
+        # For single vector, compute attention as scalar and apply to value
+        attention_score = np.dot(query, key) / np.sqrt(key.shape[-1])
+        # Clip attention score to prevent overflow
+        attention_score = np.clip(attention_score, -50, 50)
+        attention_weight = 1.0 / (1.0 + np.exp(-attention_score))  # Sigmoid for stability
+        transformer_output = value * attention_weight
         results['transformer'] = transformer_output
         
         # Fractal attention
@@ -255,10 +280,12 @@ class MultiParadigmCognitiveEngine:
         results['predictive'] = prediction_error
         
         # Recurrent reasoning
+        input_padded = input_data if len(input_data) >= 256 else np.pad(input_data, (0, 256 - len(input_data)), mode='constant')
+        input_padded = input_padded[:256]
         new_hidden = np.tanh(
             np.dot(self.recurrent_reasoning['hidden_state'], 
                    self.recurrent_reasoning['recurrence_matrix']) + 
-            input_data[:256]
+            input_padded
         )
         self.recurrent_reasoning['hidden_state'] = new_hidden
         results['recurrent'] = new_hidden
