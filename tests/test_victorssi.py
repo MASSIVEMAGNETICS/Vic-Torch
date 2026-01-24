@@ -42,8 +42,8 @@ def test_victorssi_brain_initialization():
         import VICTORSSI
         brain = VICTORSSI.AutonomousDigitalBrain(creator_identity="Test Creator")
         assert brain.creator_identity == "Test Creator"
-        assert brain.system_active == True
-        assert brain.continuity_of_self == True
+        assert brain.system_active is True
+        assert brain.continuity_of_self is True
         assert len(brain.consciousness_layers) == 7
     except ImportError as e:
         pytest.skip(f"VICTORSSI module not available: {e}")

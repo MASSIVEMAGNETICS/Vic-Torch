@@ -280,7 +280,7 @@ class MultiParadigmCognitiveEngine:
         results['predictive'] = prediction_error
         
         # Recurrent reasoning
-        input_padded = input_data if len(input_data) >= 256 else np.pad(input_data, (0, 256 - len(input_data)), mode='constant')
+        input_padded = input_data if input_data.shape[0] >= 256 else np.pad(input_data, (0, 256 - input_data.shape[0]), mode='constant')
         input_padded = input_padded[:256]
         new_hidden = np.tanh(
             np.dot(self.recurrent_reasoning['hidden_state'], 
