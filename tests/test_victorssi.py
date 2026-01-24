@@ -109,7 +109,6 @@ def test_victorssi_self_reflection():
 
 def test_victorssi_godcore_header():
     """Test that VICTORSSI.py has proper GODCORE header"""
-    import os
     victorssi_path = os.path.join(
         os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
         'VICTORSSI.py'
